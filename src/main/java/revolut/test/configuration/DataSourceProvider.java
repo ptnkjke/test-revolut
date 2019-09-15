@@ -13,7 +13,6 @@ class DataSourceProvider implements Provider<DataSource> {
         config.setJdbcUrl("jdbc:h2:mem:testdb;MVCC=true");
         config.setUsername("sa");
         config.setMaximumPoolSize(20);
-
         return config;
     }
 

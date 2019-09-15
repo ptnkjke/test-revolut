@@ -5,9 +5,12 @@ import revolut.test.exception.InsufficientAmountException;
 import java.math.BigDecimal;
 
 public class Account {
-    private final String id;
+    private String id;
     private BigDecimal amount;
 
+
+    private Account() {
+    }
 
     public Account(String id, BigDecimal amount) {
         this.id = id;

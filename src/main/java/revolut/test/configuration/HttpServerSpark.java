@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import revolut.test.api.AccountApi;
 import revolut.test.api.model.AccountRepresent;
 import revolut.test.exception.AccountNotFoundException;
+import revolut.test.exception.DBException;
 import spark.ResponseTransformer;
 
 import javax.inject.Inject;
@@ -61,6 +62,15 @@ public class HttpServerSpark implements HttpServer {
 
             Map<String, String> result = new HashMap<>();
             result.put("message", e.getMessage());
+
+            response.body(gson.toJson(result));
+        });
+
+        exception(DBException.class, (e, request, response) -> {
+            response.status(500);
+
+            Map<String, String> result = new HashMap<>();
+            result.put("message", e.getCause().getMessage());
 
             response.body(gson.toJson(result));
         });

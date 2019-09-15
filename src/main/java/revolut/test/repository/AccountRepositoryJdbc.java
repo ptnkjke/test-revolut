@@ -2,14 +2,15 @@ package revolut.test.repository;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
+import revolut.test.core.transaction.SessionFactory;
 import revolut.test.entity.Account;
 import revolut.test.exception.AccountNotFoundException;
 import revolut.test.exception.DBException;
-import revolut.test.core.transaction.SessionFactory;
 
 import javax.inject.Inject;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AccountRepositoryJdbc implements AccountRepository {
@@ -27,19 +28,22 @@ public class AccountRepositoryJdbc implements AccountRepository {
         QueryRunner queryRunner = new QueryRunner();
 
         try {
-            return queryRunner.execute(
+            List<Account> list = queryRunner.query(
                     connection,
-                    "select * from account",
+                    "select * from account order by id",
                     resultSet -> {
-                        if (resultSet.next()) {
-                            return new Account(
-                                    resultSet.getString("id"),
-                                    resultSet.getBigDecimal("amount")
-                            );
-                        }
+                        List<Account> result = new ArrayList<>();
+                        while (resultSet.next()) {
 
-                        return null;
-                    });
+                            result.add(new Account(
+                                    resultSet.getString("id"),
+                                    resultSet.getBigDecimal("amount")));
+                        }
+                        return result;
+                    }
+            );
+
+            return list;
         } catch (SQLException e) {
             throw new DBException("sql exception", e);
         }

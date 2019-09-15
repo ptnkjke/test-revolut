@@ -103,14 +103,15 @@ public class AccountApi_TestCase {
         // prepare
         transactionManual.runInTransaction(() -> {
             accountRepository.create(new Account("3", new BigDecimal(100)));
-
+            accountRepository.create(new Account("4", new BigDecimal(100)));
             return null;
         });
 
         when().get("http://localhost:8080/api/account")
                 .then()
                 .statusCode(200)
-                .body("[0].id", equalTo("3"));
+                .body("[0].id", equalTo("3"))
+                .body("[1].id", equalTo("4"));
     }
 
     @Test
