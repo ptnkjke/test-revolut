@@ -50,6 +50,7 @@ public class HttpServerSpark implements HttpServer {
 
         exception(RuntimeException.class, (e, request, response) -> {
             response.status(500);
+            response.header("Content-Type", "application/json");
 
             Map<String, String> result = new HashMap<>();
             result.put("message", e.getMessage());
@@ -59,6 +60,7 @@ public class HttpServerSpark implements HttpServer {
 
         exception(AccountNotFoundException.class, (e, request, response) -> {
             response.status(404);
+            response.header("Content-Type", "application/json");
 
             Map<String, String> result = new HashMap<>();
             result.put("message", e.getMessage());
@@ -68,6 +70,7 @@ public class HttpServerSpark implements HttpServer {
 
         exception(DBException.class, (e, request, response) -> {
             response.status(500);
+            response.header("Content-Type", "application/json");
 
             Map<String, String> result = new HashMap<>();
             result.put("message", e.getCause().getMessage());

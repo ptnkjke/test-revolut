@@ -1,0 +1,22 @@
+GET http://localhost:8080/api/account
+
+###
+
+POST http://localhost:8080/api/account
+
+{
+  "id": "11",
+  "amount": "1000000"
+}
+
+###
+
+POST http://localhost:8080/api/account/transfer
+
+{
+  "accountIdFrom": "10",
+  "accountIdTo": "11",
+  "amount": "50000"
+}
+
+###
